@@ -62,10 +62,11 @@
         android:title="@string/copy_to"
         app:showAsAction="never" />
     <item
+        android:icon="@drawable/move_folder"
         android:id="@+id/cab_move_to"
-        android:showAsAction="never"
+        android:showAsAction="always"
         android:title="@string/move_to"
-        app:showAsAction="never" />
+        app:showAsAction="always" />
     <item
         android:id="@+id/cab_create_shortcut"
         android:showAsAction="never"
