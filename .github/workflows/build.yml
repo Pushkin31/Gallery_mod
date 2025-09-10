@@ -24,10 +24,10 @@ jobs:
         uses: gradle/actions/setup-gradle@v3
 
       - name: Build with Gradle
-        run: ./gradlew assembleDebug
+        run: ./gradlew assembleRelease
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: Fossify-Gallery-Custom
-          path: app/build/outputs/apk/foss/debug/*.apk
+          path: app/build/outputs/apk/foss/release/*.apk
