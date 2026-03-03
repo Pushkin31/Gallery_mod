@@ -36,6 +36,17 @@ android {
         targetSdk = project.libs.versions.app.build.targetSDK.get().toInt()
         versionName = project.property("VERSION_NAME").toString()
         versionCode = project.property("VERSION_CODE").toString().toInt()
+
+        providers.gradleProperty("ABI_FILTERS").orNull
+            ?.split(",")
+            ?.map { it.trim() }
+            ?.filter { it.isNotEmpty() }
+            ?.takeIf { it.isNotEmpty() }
+            ?.let { selectedAbis ->
+                ndk {
+                    abiFilters += selectedAbis
+                }
+            }
     }
 
     signingConfigs {
