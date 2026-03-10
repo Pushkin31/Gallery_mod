@@ -5,6 +5,9 @@ on:
     branches: [ "main" ]
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   build:
     name: Build signed release APK
@@ -46,6 +49,21 @@ jobs:
         with:
           name: Fossify-Gallery-Custom-signed-arm64
           path: app/build/outputs/apk/foss/release/*foss-release*.apk
+
+      - name: Extract Version Name
+        id: extract_version
+        run: |
+          VERSION_NAME=$(grep 'VERSION_NAME' gradle.properties | cut -d'=' -f2)
+          echo "version=${VERSION_NAME}" >> $GITHUB_OUTPUT
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ steps.extract_version.outputs.version }}-build${{ github.run_number }}
+          name: Release v${{ steps.extract_version.outputs.version }} (Build ${{ github.run_number }})
+          files: app/build/outputs/apk/foss/release/*foss-release*.apk
+          draft: false
+          prerelease: false
 
       - name: Cleanup keystore
         if: always()
